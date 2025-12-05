@@ -1,0 +1,408 @@
+/* Asciidoctor default stylesheet 1.5.8dev */
+/* Uncomment the following line when using asciidoctor with the gem */
+/*
+ * :sectnums!:
+ */
+/* Uncomment the following line for HTML5 output, comment it for HTML4 */
+/*
+ * >> globaloptions=html5
+ */
+/* Content Styles ------------------------------------ */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block; }
+
+audio:not([controls]) {
+  display: none;
+  height: 0; }
+
+[hidden] {
+  display: none; }
+
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0; }
+
+a:focus {
+  outline: thin dotted; }
+
+a:active, a:hover {
+  outline: 0; }
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0; }
+
+abbr[title] {
+  border-bottom: 1px dotted; }
+
+b, strong {
+  font-weight: bold; }
+
+dfn {
+  font-style: italic; }
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0; }
+
+mark {
+  background: #ff0;
+  color: #000; }
+
+code, kbd, pre, samp {
+  font-family: monospace, serif;
+  font-size: 1em; }
+
+pre {
+  white-space: pre-wrap; }
+
+q {
+  quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+small {
+  font-size: 80%; }
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sup {
+  top: -0.5em; }
+
+sub {
+  bottom: -0.25em; }
+
+img {
+  border: 0; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+figure {
+  margin: 0; }
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em; }
+
+legend {
+  border: 0;
+  padding: 0; }
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0; }
+
+button, input {
+  line-height: normal; }
+
+button, select {
+  text-transform: none; }
+
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer; }
+
+button[disabled], html input[disabled] {
+  cursor: default; }
+
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0; }
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box; }
+
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+textarea {
+  overflow: auto;
+  vertical-align: top; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+*, *::before, *::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+html, body {
+  font-size: 100%; }
+
+body {
+  background: white;
+  color: #222222;
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  position: relative;
+  cursor: auto; }
+
+a:hover {
+  cursor: pointer; }
+
+img, object, embed {
+  max-width: 100%;
+  height: auto; }
+
+object, embed {
+  height: 100%; }
+
+img {
+  -ms-interpolation-mode: bicubic; }
+
+#map_canvas img, #map_canvas embed, #map_canvas object, .map_canvas img, .map_canvas embed, .map_canvas object {
+  max-width: none !important; }
+
+.left {
+  float: left !important; }
+
+.right {
+  float: right !important; }
+
+.text-left {
+  text-align: left !important; }
+
+.text-right {
+  text-align: right !important; }
+
+.text-center {
+  text-align: center !important; }
+
+.text-justify {
+  text-align: justify !important; }
+
+.hide {
+  display: none; }
+
+.antialiased, body {
+  -webkit-font-smoothing: antialiased; }
+
+img {
+  display: inline-block;
+  vertical-align: middle; }
+
+textarea {
+  height: auto;
+  min-height: 50px; }
+
+select {
+  width: 100%; }
+
+p.lead, .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p {
+  font-size: 1.21875em;
+  line-height: 1.6; }
+
+.subheader, .admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, .sidebarblock > .title, .tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title {
+  line-height: 1.45;
+  color: #7a2518;
+  font-weight: 300;
+  margin-top: 0.2em;
+  margin-bottom: 0.5em; }
+
+/* Typography resets */
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6, pre, form, p, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+  direction: ltr; }
+
+/* Default Link Styles */
+a {
+  color: #2156a5;
+  text-decoration: underline;
+  line-height: inherit; }
+  a:hover, a:focus {
+    color: #1d4b8f; }
+  a img {
+    border: none; }
+
+/* Default paragraph styles */
+p {
+  font-family: inherit;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: 1.6;
+  margin-bottom: 1.25em;
+  text-rendering: optimizeLegibility; }
+  p aside {
+    font-size: 0.875em;
+    line-height: 1.35;
+    font-style: italic; }
+
+/* Default header styles */
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 {
+  font-family: Georgia, "URW Bookman L", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: #ba3925;
+  text-rendering: optimizeLegibility;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.2125em; }
+
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title {
+  letter-spacing: -0.01em; }
+
+h1 {
+  font-size: 2.125em;
+  line-height: 1.14285714; }
+
+h2 {
+  font-size: 1.6875em;
+  line-height: 1.225; }
+
+h3, #toctitle, .sidebarblock > .content > .title {
+  font-size: 1.375em;
+  line-height: 1.235; }
+
+h4 {
+  font-size: 1.125em;
+  line-height: 1.222; }
+
+h5 {
+  font-size: 1.125em;
+  line-height: 1.222; }
+
+h6 {
+  font-size: 1.125em;
+  line-height: 1.222; }
+
+p {
+  margin-bottom: 1.25em; }
+
+@media only screen {
+  small {
+    font-size: 80%;
+    line-height: inherit; } }
+
+@media only screen and (min-width: 768px) {
+  h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 {
+    line-height: 1.2; }
+  h1 {
+    font-size: 2.75em; }
+  h2 {
+    font-size: 2.3125em; }
+  h3, #toctitle, .sidebarblock > .content > .title {
+    font-size: 1.6875em; }
+  h4 {
+    font-size: 1.4375em; } }
+
+.clearfix:before, .clearfix:after, .float-group:before, .float-group:after {
+  content: " ";
+  display: table; }
+.clearfix:after, .float-group:after {
+  clear: both; }
+
+/* Lists ------------------------------- */
+ul, ol, dl, figure {
+  margin-bottom: 1.25em; }
+
+ul, ol {
+  margin-left: 1.5em; }
+
+ul li ul, ul li ol {
+  margin-left: 1.25em;
+  margin-bottom: 0; }
+ul li ul.no-bullet, ul li ol.no-bullet {
+  margin-left: 1.5em; }
+
+ul.no-bullet, ol.no-bullet {
+  margin-left: 0; }
+
+/* Unordered Lists */
+ul {
+  margin-bottom: 1.25em; }
+  ul li ul, ul li ol {
+    margin-bottom: 0; }
+  ul.unstyled, ul.no-bullet {
+    list-style: none; }
+
+/* Ordered Lists */
+ol {
+  margin-bottom: 1.25em; }
+  ol li ul, ol li ol {
+    margin-bottom: 0; }
+
+dl dt {
+  margin-bottom: 0.3125em;
+  font-weight: bold; }
+
+dl dd {
+  margin-bottom: 1.25em; }
+
+/* Definition Lists */
+dl {
+  margin-bottom: 1.25em; }
+  dl dt, dl dd, dl dl dt, dl dl dd, dl dd {
+    display: inline-block;
+    width: 85%; }
+  dl dt {
+    margin: 0;
+    clear: both;
+    overflow: hidden;
+    font-weight: bold;
+    font-family: Georgia, "URW Bookman L", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    line-height: 1.35; }
+    dl dt:before {
+      content: ": "; }
+  dl dd {
+    margin: 0 0 0.75em 0;
+    font-family: Georgia, "URW Bookman L", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    line-height: 1.35; }
+
+.quoteblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .openblock > .title, .paragraph > .title, .sidebarblock > .title, .tableblock > caption, .verseblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title {
+  text-align: left;
+  font-weight: bold;
+  font-family: Georgia, "URW Bookman L", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  line-height: 1.35; }
+
+table {
+  margin-bottom: 1.25em;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #DDDDDD; }
+  table thead {
+    font-weight: bold; }
+    table thead tr th, table thead tr td {
+      padding: 0.5em 0.625em 0.625em;
+      font-size: 0.9em;
+      color: rgba(0, 0, 0, 0.8);
+      text-align: left; }
+  table tr th, table tr td {
+    padding: 0.5625em 0.625em;
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.8); }
+  table tr.alt {
+    background: #f8f8f7; }
+  table tbody tr th {
+    vertical-align: top; }
+
+@media only screen and (max

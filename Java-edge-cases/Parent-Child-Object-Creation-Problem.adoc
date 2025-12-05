@@ -1,0 +1,188 @@
+= Java Inheritance: Reference Types vs Object Types
+:sectnums:
+:imagesdir: images
+:icons: font
+:source-highlighter: highlightjs
+
+// --- Bootstrap + custom styling injection ---
+++++
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http‑equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384‑sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #212529;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .content {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    pre.block, code {
+      background: #f1f1f1;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+    table {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+++++
+
+== Overview
+In Java, references and objects have different types that affect method resolution. Normal (instance) methods use dynamic binding (runtime polymorphism), while `static` and `final` methods use static binding (compile-time resolution). This document covers all scenarios with code examples.
+
+== Core Scenarios
+
+=== Scenario 1: Parent Reference → Parent Object
+
+[source,java]
+// ...
+public class Parent {
+    public void normalMethod() { System.out.println("Parent normal"); }
+    public static void staticMethod() { System.out.println("Parent static"); }
+    public final void finalMethod() { System.out.println("Parent final"); }
+}
+
+public class Child extends Parent {
+@Override
+public void normalMethod() { System.out.println("Child normal"); }
+public static void staticMethod() { System.out.println("Child static"); }
+// finalMethod cannot be overridden
+}
+
+public class Test {
+public static void main(String[] args) {
+Parent p = new Parent();
+p.normalMethod(); // Parent normal
+p.staticMethod(); // Parent static
+p.finalMethod();  // Parent final
+}
+}
+// end of code
+
+*Result*: All methods resolve to `Parent` class (compile-time binding for static/final).
+
+=== Scenario 2: Parent Reference → Child Object (Polymorphism)
+
+[source,java]
+// ...
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.normalMethod(); // Child normal
+        p.staticMethod(); // Parent static
+        p.finalMethod();  // Parent final
+        // p.childOnlyMethod(); // Compile error!
+    }
+}
+// end
+
+*Key Insight*: Only `normalMethod()` shows polymorphism; `static`/`final` stay bound to reference type.
+
+=== Scenario 3: Child Reference → Child Object
+
+[source,java]
+// ...
+public class Child {
+    public void childOnlyMethod() { System.out.println("Child only"); }
+}
+
+public class Test {
+public static void main(String[] args) {
+Child c = new Child();
+c.normalMethod();     // Child normal
+c.staticMethod();     // Child static
+c.finalMethod();      // Parent final
+c.childOnlyMethod();  // Child only
+}
+}
+// end
+
+*Result*: Full access to child class members.
+
+== Method Type Comparison
+
+| Method Type | Binding | Parent Ref + Child Obj | Child Ref + Child Obj |
+|-------------|---------|------------------------|----------------------|
+| Normal      | Dynamic | Child method           | Child method         |
+| Static      | Static  | Parent method          | Child method         |
+| Final       | Static  | Parent method          | Parent method        |
+
+== Edge Cases
+
+=== 1. Private Methods (No Override)
+If a method in Parent is `private`, it can’t be overridden — only Parent’s own private method will ever be used (not viewable via child reference).
+
+=== 2. Casting to Access Child Methods
+You can cast when you know the actual object type:
+
+[source,java]
+// ...
+Parent p = new Child();
+((Child)p).childOnlyMethod(); // works after cast
+// end
+
+== Memory Layout
+
+When you do:
+Parent p = new Child();
+
+- **Reference type**: `Parent` (compile-time)
+- **Object type**: `Child` (runtime)
+- **Heap**: Single `Child` object with both parent and child fields
+
+== Best Practices
+- Use parent references for polymorphic collections, e.g. `List<Parent> animals = new ArrayList<>()`
+- Avoid expecting “polymorphic” behavior from static or final methods
+- Use `instanceof` + cast carefully if you need child‑specific access
+- Use `final` where you want to prevent overriding
+
+== Quick Reference Table
+You can think of this as three “lanes” (P→P, P→C, C→C), and within each lane how calls to different method types resolve. Example:
+
+                   Reference Type → Object Type
+Scenario        |  Normal (instance)  |  static / final  |  Child‑only
+--------------- | ------------------- | ---------------- | ------------
+P → P           | Parent.normal()     | Parent.static()  | — (none)
+P → C           | Child.normal()      | Parent.static()  | — (cannot access child-only)
+C → C           | Child.normal()      | Child.static()   | Child.static()/child-only
+
+
+The **“Normal (instance)”** calls use dynamic binding — resolved at run‑time based on the object’s actual class (so P→C and C→C calls invoke the child’s overridden method).
+
+
+The **“static / final”** calls use static binding — resolved at compile-time based on the reference type (so even if the actual object is Child, if reference is Parent, static/final calls go to Parent).
+
+
+**“Child-only”** methods/fields are only accessible when the reference type is Child — when you have a Child reference to Child object.
+
+// --- close Bootstrap wrapper ---
+++++
+  </div>
+</div>
+</body>
+</html>
+++++
