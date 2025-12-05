@@ -1,0 +1,258 @@
+= Java finally-block behavior
+:doctype: article
+
+++++
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #F3F7FF !important;
+    color: #1F2933 !important;
+    font-family: "Segoe UI", "system-ui", -apple-system, BlinkMacSystemFont, "Roboto", sans-serif !important;
+    line-height: 1.6 !important;
+    margin: 1rem !important;
+    font-size: 16px !important;
+  }
+
+  mark {
+    background-color: #E3F2FD !important;  /* Light blue, low-glare */
+    color: #00897B !important;             /* Teal text */
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+    font-weight: 500 !important;
+  }
+
+  .important {
+    background-color: #044c9f;  /* Soft orange */
+    color: white;
+    padding: 7px ;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  /* Headers */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif !important;
+    background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #1D4ED8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #1E40AF !important;
+    font-weight: 700 !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
+    padding: 0.5rem 1rem !important;
+    border-left: 4px solid #3B82F6 !important;
+    text-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
+  }
+
+  h1 {
+    font-size: 2.2rem !important;
+    background: linear-gradient(135deg, #1E293B 0%, #334155 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    border-left-color: #475569 !important;
+  }
+
+  h2 {
+    font-size: 1.8rem !important;
+  }
+
+  /* FIXED Java source code blocks - Pure white background */
+  pre > code.source-java,
+  .source-java pre,
+  source.java pre,
+  pre.hljs.java,
+  .listingblock.java pre {
+    background-color: #FFFFFF !important;
+    color: #1F2937 !important;
+  }
+
+  pre {
+    background-color: #FFFFFF !important;
+    color: #1F2937 !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    border: 1px solid #D1D5DB !important;
+    overflow-x: auto !important;
+    margin: 1rem 0 !important;
+  }
+
+  code {
+    font-family: "JetBrains Mono", "Consolas", "Courier New", monospace !important;
+    background-color: #F8FAFC !important;
+    color: #000000 !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid #E5E7EB !important;
+  }
+
+  pre code {
+    background-color: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    color: #1F2937 !important;
+  }
+
+  /* Section backgrounds */
+  div[class*="section-overview"],
+  section[class*="section-overview"],
+  div.section-overview,
+  section.section-overview {
+    background: linear-gradient(135deg, #E0F2FE 0%, #B9E8FF 100%) !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+  }
+
+  div[class*="section-typical"],
+  section[class*="section-typical"] {
+    background: linear-gradient(135deg, #DCFCE7 0%, #A7F3D0 100%) !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+  }
+
+  div[class*="section-not-exec"],
+  section[class*="section-not-exec"] {
+    background: linear-gradient(135deg, #FEF9C3 0%, #FEF3C7 100%) !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid rgba(245, 158, 11, 0.2) !important;
+  }
+
+  div[class*="section-example"],
+  section[class*="section-example"] {
+    background: linear-gradient(135deg, #FCE7F3 0%, #F9A8D4 100%) !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid rgba(236, 72, 153, 0.2) !important;
+  }
+
+  div[class*="section-summary"],
+  section[class*="section-summary"] {
+    background: linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%) !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid rgba(107, 114, 128, 0.2) !important;
+  }
+
+  ul {
+    padding-left: 1.5rem !important;
+  }
+
+  li {
+    margin-bottom: 0.75rem !important;
+  }
+
+  a {
+    color: #0066cc !important;
+    text-decoration: none !important;
+  }
+
+  a:hover {
+    color: #004a99 !important;
+    text-decoration: underline !important;
+  }
+</style>
+++++
+
+[.section-overview]
+== Overview
+
+• The **finally** block is used for cleanup or logic that should run almost always at the end of a **try** or **catch**.
+• <mark class="important">The key idea is that finally runs whether the code completes normally or an exception occurs.</mark>
+• It is commonly used to release resources such as streams, database connections, or locks.
+
+[.section-typical]
+== Typical cases where finally executes
+
+• Execution leaves **try** normally with no exception.
+• An exception is thrown in **try** and is caught by a matching **catch**.
+• An exception is thrown in **try** or **catch** and is not handled in that method (it propagates out), but **finally** still runs before the method exits.
+• There is a **return**, **break**, or **continue** inside **try** or **catch**; <mark class="important">finally still executes before control actually leaves the method or loop.</mark>
+
+[.section-not-exec]
+== Cases where finally may not execute
+
+• [important]#If the JVM terminates abruptly (for example, an explicit System.exit call), the finally block may be skipped.#
+
+• If the executing thread is forcibly stopped in a way that prevents normal completion, finally might not run.
+• If the code in **try** or **catch** never finishes (infinite loop, blocking I/O that never returns), the flow never reaches finally.
+
+[.section-example]
+== Example code in Java
+
+[source,java]
+----
+public class FinallyDemo {
+
+    public static void main(String[] args) {
+        System.out.println("Case 1: normal flow");
+        demoNormal();
+
+        System.out.println("\nCase 2: exception but caught");
+        demoExceptionHandled();
+
+        System.out.println("\nCase 3: exception not caught");
+        try {
+            demoExceptionUnhandled();
+        } catch (RuntimeException e) {
+            System.out.println("Caught in main: " + e.getMessage());
+        }
+
+        System.out.println("\nCase 4: return in try");
+        System.out.println("demoReturn(): " + demoReturn());
+    }
+
+    static void demoNormal() {
+        try {
+            System.out.println("  In try (normal)");
+        } finally {
+            System.out.println("  In finally");
+        }
+    }
+
+    static void demoExceptionHandled() {
+        try {
+            System.out.println("  In try (about to throw)");
+            throw new RuntimeException("oops");
+        } catch (Exception e) {
+            System.out.println("  In catch: " + e.getMessage());
+        } finally {
+            System.out.println("  In finally");
+        }
+    }
+
+    static void demoExceptionUnhandled() {
+        try {
+            System.out.println("  In try (about to throw)");
+            throw new RuntimeException("uncaught");
+        } finally {
+            System.out.println("  In finally");
+        }
+    }
+
+    static String demoReturn() {
+        try {
+            System.out.println("  In try (before return)");
+            return "returned from try";
+        } finally {
+            System.out.println("  In finally (still executes)");
+        }
+    }
+}
+----
+
+[.section-summary]
+== Summary
+
+• [important]#Under normal conditions (success paths, handled exceptions, unhandled exceptions, and returns), finally is executed and is a good place for cleanup.#
+• In abnormal conditions like abrupt JVM shutdown or non-terminating code, finally is not guaranteed to run, so critical logic should not rely solely on it.
+• Use finally mainly for releasing resources and final housekeeping after a try-catch block.
